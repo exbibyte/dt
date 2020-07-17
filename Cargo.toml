@@ -1,8 +1,13 @@
 [package]
 name = "dt"
-version = "1.0.0"
-authors = ["Yuan Liu <yuan6liu@gmail.com>"]
+version = "1.0.1"
+authors = ["(Bill) Yuan Liu <yuan6liu@gmail.com>"]
 edition = "2018"
+description = "distance transform"
+license = "MIT"
+documentation = "https://docs.rs/dt/"
+repository = "https://github.com/clearlycloudy/dt/"
+readme = "README.md"
 
 [dependencies]
 ndarray = "0.13.1"
