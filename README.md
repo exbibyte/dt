@@ -4,7 +4,7 @@ Computing euclidean distance transform with ndarray. Currently accepts ndarray o
 
 Sample Usage:
 ```rust
-    use dt::{dt, ndarray::prelude::*};
+    use dt::{dt, dt_bool, dt_int, ndarray::prelude::*};
 
     ...
 
