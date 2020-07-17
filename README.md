@@ -4,6 +4,10 @@ Computing euclidean distance transform with ndarray. Currently accepts ndarray o
 
 Sample Usage:
 ```rust
+    use dt::{dt, ndarray::prelude::*};
+
+    ...
+
     let a = arr2(&[
         [1., 0., 1., 1.],
         [1., 0., 1., 0.],
