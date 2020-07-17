@@ -3,9 +3,6 @@ pub extern crate ndarray;
 pub extern crate num;
 
 #[cfg(test)]
-pub extern crate ndarray_rand;
-
-#[cfg(test)]
 pub extern crate lodepng;
 
 #[cfg(test)]
