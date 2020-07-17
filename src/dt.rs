@@ -7,39 +7,40 @@ use lodepng;
 /// Compute shortest euclidean distance of points to masked regions.
 /// Assumes masked regions have boolean value of true
 pub fn dt_bool<T: num::Float>(a: &Array<bool, IxDyn>) -> Array<T, IxDyn> {
-
     let mut ret = Array::<T, IxDyn>::zeros(a.shape());
 
     let it = a.iter();
     let it2 = ret.iter_mut();
 
-    for (&orig,new) in it.zip(it2) {
+    for (&orig, new) in it.zip(it2) {
         *new = if orig { T::one() } else { T::zero() };
     }
-    
+
     dt(&ret)
 }
 
 /// Compute shortest euclidean distance of points to masked regions.
 /// Assumes masked regions have int value of non-zero
 pub fn dt_int<T: num::Float, U: num::Integer>(a: &Array<U, IxDyn>) -> Array<T, IxDyn> {
-
     let mut ret = Array::<T, IxDyn>::zeros(a.shape());
 
     let it = a.iter();
     let it2 = ret.iter_mut();
 
-    for (orig,new) in it.zip(it2) {
-        *new = if orig != &U::zero() { T::one() } else { T::zero() };
+    for (orig, new) in it.zip(it2) {
+        *new = if orig != &U::zero() {
+            T::one()
+        } else {
+            T::zero()
+        };
     }
-    
+
     dt(&ret)
 }
 
 /// Compute shortest euclidean distance of points to masked regions.
 /// Assumes masked regions have values > 0.5
 pub fn dt<T: num::Float>(a: &Array<T, IxDyn>) -> Array<T, IxDyn> {
-    
     use std::cmp::max;
 
     let mut ret = a.clone();
@@ -123,38 +124,35 @@ fn dt_1d<T: num::Float>(out: &mut Vec<T>, f: &Vec<T>, n: usize) {
 
 #[test]
 fn test() {
-    let out0 : Array<f64, IxDyn>;
+    let out0: Array<f64, IxDyn>;
     {
         let a = arr2(&[
             [1., 0., 1., 1.],
             [1., 0., 1., 0.],
             [0., 0., 0., 0.],
             [0., 0., 0., 1.],
-        ]).into_dyn();
+        ])
+        .into_dyn();
         out0 = dt(&a);
         dbg!(&out0);
     }
-    let out1 : Array<f32, IxDyn>;
+    let out1: Array<f32, IxDyn>;
     {
         let a = arr2(&[
             [true, false, true, true],
             [true, false, true, false],
             [false, false, false, false],
             [false, false, false, true],
-        ]).into_dyn();
+        ])
+        .into_dyn();
 
         out1 = dt_bool(&a);
         dbg!(&out1);
     }
-    let out2 : Array<f32, IxDyn>;
+    let out2: Array<f32, IxDyn>;
     {
         {
-            let a = arr2(&[
-                [1, 0, 1, 1],
-                [1, 0, 1, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 1],
-            ]).into_dyn();
+            let a = arr2(&[[1, 0, 1, 1], [1, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 1]]).into_dyn();
             out2 = dt_int(&a);
             dbg!(&out2);
         }
@@ -162,13 +160,15 @@ fn test() {
     let mut it = (out0.iter(), out1.iter(), out2.iter());
     let mut count = 0;
     loop {
-        match (it.0.next(), it.1.next(), it.2.next()){
-            (Some(a),Some(b),Some(c)) => {
-                assert!((*a as f32 -*b).abs() < Float::epsilon());
-                assert!((*a as f32 -*c).abs() < Float::epsilon());
+        match (it.0.next(), it.1.next(), it.2.next()) {
+            (Some(a), Some(b), Some(c)) => {
+                assert!((*a as f32 - *b).abs() < Float::epsilon());
+                assert!((*a as f32 - *c).abs() < Float::epsilon());
                 count += 1;
             }
-            (None,None,None) => { break; }
+            (None, None, None) => {
+                break;
+            }
             _ => {
                 panic!("unexpected end");
             }
@@ -178,9 +178,7 @@ fn test() {
 }
 
 #[test]
-fn test_bool() {
-
-}
+fn test_bool() {}
 
 #[test]
 fn test_img() {
